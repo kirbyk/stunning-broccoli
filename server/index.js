@@ -6,6 +6,8 @@ app.set('port', (process.env.PORT || 8080));
 
 app.set('view engine', 'jade');
 
+app.use('/assets',  express.static('./assets'));
+
 
 var homeController = require('./controllers/home');
 
