@@ -5,5 +5,12 @@
   "authors": [
     "Rhys Howell",
     "Kirby Kohlmorgen"
-  ]
+  ],
+  "scripts": {
+    "start": "cd server && node index.js"
+  },
+  "dependencies": {
+    "express": "^4.13.4",
+    "jade": "^1.11.0"
+  }
 }
