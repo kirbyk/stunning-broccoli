@@ -1,8 +1,8 @@
 console.log('Welcome to broc');
 
 
-var width = 800;
-var height = 600;
+var canvasWidth = 800;
+var canvasHeight = 600;
 
 var heroWidth = 20;
 var heroHeight = 20;
@@ -12,8 +12,8 @@ var heroSpeed = 250;
 var rightKeyDown = false;
 var leftKeyDown = false;
 
-var centerX = width / 2;
-var centerY = height / 2;
+var centerX = canvasWidth / 2;
+var centerY = canvasHeight / 2;
 
 var gameLoopInterval = null;
 var fps = 1000 / 60; // 60 fps
@@ -39,12 +39,60 @@ var Player = function() {
   this.yDir = 0;
 };
 
+Player.prototype.draw = function() {
+  ctx.fillRect(this.x, this.y, this.width, this.height);
+};
+
+Player.prototype.setX = function(x) {
+  var safeWidth = canvasWidth - this.width;
+
+  if (x > safeWidth) {
+    this.x = safeWidth;
+  } else if(x < 0) {
+    this.x = 0;
+  } else {
+    this.x = x;
+  }
+};
+
+Player.prototype.setY = function(y) {
+  var safeHeight = canvasHeight - this.height;
+
+  if (y > safeHeight) {
+    this.y = safeHeight;
+  } else if(y < 0) {
+    this.y = 0;
+  } else {
+    this.y = y;
+  }
+};
+
+Player.prototype.update = function() {
+  deltaTime = (Date.now() - lastTime) / 1000;
+
+  this.yDir += GRAVITY * deltaTime;
+
+  this.setY(this.y + (this.yDir * deltaTime));
+
+  var heroVector = heroSpeed * deltaTime;
+
+  if (rightKeyDown) {
+    this.setX(this.x + heroVector);
+  }
+
+  if (leftKeyDown) {
+    this.setX(this.x - heroVector);
+  }
+
+  lastTime = Date.now();
+};
+
 var init = function() {
   canvas = document.createElement('canvas');
   ctx = canvas.getContext('2d');
 
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
 
   document.body.appendChild(canvas);
 
@@ -59,8 +107,6 @@ var init = function() {
 
 var handleKeydown = function(e) {
   var keyCode = e.keyCode;
-
-  console.log(keyCode);
 
   switch(keyCode) {
     case keyCodes.up:
@@ -79,7 +125,7 @@ var handleKeydown = function(e) {
 var handleKeyup = function(e) {
   var keyCode = e.keyCode;
 
-  console.log(keyCode);
+  // console.log(keyCode);
 
   switch(keyCode) {
     case keyCodes.right:
@@ -92,39 +138,13 @@ var handleKeyup = function(e) {
 };
 
 var draw = function() {
-  ctx.clearRect(0, 0, width, height); // clear the canvas
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight); // clear the canvas
 
-  ctx.fillRect(hero.x, hero.y, hero.width, hero.height);
+  hero.draw();
 };
 
 var update = function() {
-  var deltaTime = (Date.now() - lastTime) / 1000;
-
-  hero.yDir += GRAVITY * deltaTime;
-
-  if (hero.y + hero.yDir * deltaTime + hero.height < height) {
-    hero.y += hero.yDir * deltaTime;
-  } else {
-    hero.y = height - hero.height;
-  }
-
-  if (rightKeyDown) {
-    if (hero.x + heroSpeed * deltaTime + hero.width < width) {
-      hero.x += heroSpeed * deltaTime;
-    } else {
-      hero.x = width - hero.width;
-    }
-  }
-
-  if (leftKeyDown) {
-    if (hero.x - heroSpeed * deltaTime > 0) {
-      hero.x -= heroSpeed * deltaTime;
-    } else {
-      hero.x = 0;
-    }
-  }
-
-  lastTime = Date.now();
+  hero.update();
 };
 
 var gameLoop = function() {
