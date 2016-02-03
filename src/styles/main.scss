@@ -1,0 +1,11 @@
+@import 'normalize';
+@import 'bourbon';
+@import 'neat';
+@import "bootstrap";
+@import "font-awesome";
+
+@import 'variables';
+
+canvas {
+  border: 1px solid #000;
+}

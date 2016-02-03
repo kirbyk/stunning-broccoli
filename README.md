@@ -7,6 +7,7 @@ Installation
 ------------
 
 ```bash
+$ npm install -g gulp bower
 $ npm install
 ```
 
@@ -16,6 +17,7 @@ Deployment
 #### Development
 
 ```bash
+$ npm build
 $ npm start
 $ browser http://localhost:8080
 ```

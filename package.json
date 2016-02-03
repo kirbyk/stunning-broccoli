@@ -7,10 +7,28 @@
     "Kirby Kohlmorgen"
   ],
   "scripts": {
-    "start": "cd server && node index.js"
+    "clean": "rm -rf dist",
+    "build": "gulp",
+    "start": "cd dist && node server.js"
   },
   "dependencies": {
-    "express": "^4.13.4",
-    "jade": "^1.11.0"
+    "express": "4.13.4",
+    "jade": "1.11.0",
+    "react": "0.13.3",
+    "react-canvas": "git://github.com/kirbyk/react-canvas.git"
+  },
+  "devDependencies": {
+    "babel-core": "5.8.23",
+    "babel-loader": "5.3.2",
+    "brfs": "1.4.1",
+    "gulp": "3.9.0",
+    "gulp-concat": "2.6.0",
+    "gulp-sass": "2.1.0",
+    "node-bourbon": "4.2.3",
+    "node-neat": "1.7.2",
+    "node-normalize-scss": "1.0.3",
+    "transform-loader": "0.2.2",
+    "webpack": "1.12.9",
+    "webpack-stream": "3.1.0"
   }
 }
