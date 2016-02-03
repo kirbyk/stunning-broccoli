@@ -18,7 +18,7 @@ Deployment
 #### Development
 
 ```bash
-$ npm build
+$ npm run build
 $ npm start
 $ browser http://localhost:8080
 ```
