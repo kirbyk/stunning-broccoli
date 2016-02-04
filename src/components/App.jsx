@@ -1,8 +1,12 @@
-import Constants from '../constants';
-import Player from './Player/Player';
 import React from 'react';
-import { Surface } from 'react-canvas';
+import Game from './Game.jsx';
+import reducers from '../reducers';
 
+import { Provider } from 'react-redux';
+import { createStore } from 'redux'
+
+
+const store = createStore(reducers);
 
 export default class App extends React.Component {
 
@@ -11,10 +15,12 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log(this.props);
+
     return (
-      <Surface width={Constants.canvasWidth} height={Constants.canvasHeight} left={0} top={0}>
-        <Player />
-      </Surface>
+      <Provider store={store}>
+        {() => <Game />}
+      </Provider>
     );
   }
 
