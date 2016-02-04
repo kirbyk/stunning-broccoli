@@ -1,5 +1,5 @@
 import Constants from '../constants';
-import Player from './Player';
+import Player from './Player/Player';
 import React from 'react';
 import { Surface } from 'react-canvas';
 

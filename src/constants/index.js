@@ -6,7 +6,7 @@ export default {
   playerJump: -300,
   playerSpeed: 250,
 
-  fps: 1000 / 60, // 60 fp
+  fps: 1000 / 60, // 60 fps
 
   gravity: 300,
 

@@ -1,4 +1,5 @@
-import Constants from '../constants';
+import Constants from '../../constants';
+import Controls from './PlayerControls';
 import React from 'react';
 import { Circle } from 'react-canvas';
 
@@ -19,12 +20,20 @@ export default class Player extends React.Component {
       deltaTime: 0,
       lastTime: Date.now(),
 
-      rightKeyDown: false,
-      leftKeyDown: false,
+      // rightKeyDown: false,
+      // leftKeyDown: false,
     };
 
+    Controls.saySomething();
+    console.log('Player controls: ' + Controls);
+    console.log('2 controls: ' + Controls._handleKeydown);
+
+    // pulling in controls from PlayerControls.js
+    this._handleKeydown = Controls._handleKeydown;
+    this._handleKeyup = Controls._handleKeyup;
+
     this._handleKeydown = this._handleKeydown.bind(this);
-    this._handleKeyup = this._handleKeyup.bind(this);
+    this._handleKeyup = this._handleKeydown.bind(this);
 
     document.addEventListener('keydown', this._handleKeydown);
     document.addEventListener('keyup', this._handleKeyup);
@@ -45,7 +54,6 @@ export default class Player extends React.Component {
       if (this.state.rightKeyDown) {
         this._setX(this.state.xPos + playerVector);
       }
-
       if (this.state.leftKeyDown) {
         this._setX(this.state.xPos - playerVector);
       }
@@ -116,52 +124,4 @@ export default class Player extends React.Component {
       });
     }
   }
-
-  _handleKeydown(e) {
-    var keyCode = e.keyCode;
-    var keyCodes = Constants.keyCodes;
-
-    switch(keyCode) {
-      case keyCodes.up:
-      case keyCodes.space:
-        this.setState({
-          ...this.state,
-          yDir: Constants.playerJump
-        });
-        break;
-      case keyCodes.right:
-        this.setState({
-          ...this.state,
-          rightKeyDown: true
-        });
-        break;
-      case keyCodes.left:
-        this.setState({
-          ...this.state,
-          leftKeyDown: true
-        });
-        break;
-    }
-  }
-
-  _handleKeyup(e) {
-    var keyCode = e.keyCode;
-    var keyCodes = Constants.keyCodes;
-
-    switch(keyCode) {
-      case keyCodes.right:
-        this.setState({
-          ...this.state,
-          rightKeyDown: false
-        });
-        break;
-      case keyCodes.left:
-        this.setState({
-          ...this.state,
-          leftKeyDown: false
-        });
-        break;
-    }
-  }
-
 }
