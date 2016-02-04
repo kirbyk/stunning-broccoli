@@ -78,18 +78,18 @@ export default class Player extends React.Component {
   _setX(x) {
     var safeWidth = Constants.canvasWidth - this.state.radius;
 
-    if (x > safeWidth) {
+    if (x > safeWidth) {                      // prevent going too right
       this.setState({
         ...this.state,
         xPos: safeWidth
       });
-    } else if (x < Constants.playerRadius) {
+    } else if (x < Constants.playerRadius) {  // prevent going too left
       this.setState({
         ...this.state,
         xPos: Constants.playerRadius
       });
     } else {
-      this.setState({
+      this.setState({                         // base case
         ...this.state,
         xPos: x
       });
@@ -99,17 +99,17 @@ export default class Player extends React.Component {
   _setY(y) {
     var safeHeight = Constants.canvasHeight - this.state.radius;
 
-    if (y > safeHeight) {
+    if (y > safeHeight) {                     // prevent going too low
       this.setState({
         ...this.state,
         yPos: safeHeight
       });
-    } else if (y < 0) {
+    } else if (y < Constants.playerRadius) {  // prevent going too high
       this.setState({
         ...this.state,
-        yPos: 0
+        yPos: Constants.playerRadius
       });
-    } else {
+    } else {                                  // base case
       this.setState({
         ...this.state,
         yPos: y
