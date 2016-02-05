@@ -6,17 +6,15 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 
 
-const store = createStore(reducers);
+let store = createStore(reducers);
 
 export default class App extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   render() {
-    console.log(this.props);
-
     return (
       <Provider store={store}>
         {() => <Game />}

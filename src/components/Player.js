@@ -27,10 +27,10 @@ class Player extends React.Component {
 
   _getStyle() {
     return {
-      xPos: this.props.xPos,
-      yPos: this.props.yPos,
+      xPos: this.props.player.xPos,
+      yPos: this.props.player.yPos,
       radius: Constants.playerRadius,
-      color: this.props.color
+      color: this.props.player.color
     };
   }
 
@@ -66,4 +66,8 @@ class Player extends React.Component {
 
 }
 
-export default connect()(Player);
+const mapStateToProps = (state) => {
+  return state;
+}
+
+export default connect(mapStateToProps)(Player);

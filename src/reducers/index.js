@@ -70,7 +70,7 @@ export default function game(state = defaultState, action) {
 
       var playerVector = Constants.playerSpeed * state.deltaTime;
 
-      let xPos = null;
+      let xPos = state.player.xPos;
 
       if (state.rightKeyDown) {
         xPos = _calcX(state.player.xPos + playerVector);

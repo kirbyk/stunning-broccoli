@@ -8,21 +8,17 @@ import { tick } from '../actions';
 
 class Game extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   componentDidMount() {
-    console.log('fuck');
     setInterval(() => {
       this.props.dispatch(tick());
-      // this.forceUpdate(); // this makes the error go forever
     }, Constants.fps);
   }
 
   render() {
-    console.log(this.props);
-
     return (
       <Surface width={Constants.canvasWidth} height={Constants.canvasHeight} left={0} top={0}>
         <Player />
@@ -32,4 +28,8 @@ class Game extends React.Component {
 
 }
 
-export default connect()(Game);
+const mapStateToProps = (state) => {
+  return state;
+}
+
+export default connect(mapStateToProps)(Game);
