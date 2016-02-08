@@ -24,7 +24,7 @@ var config = {
 // });
 //
 gulp.task('webpack', function() {
-  return gulp.src('src/client.js')
+  return gulp.src('./src/game/src/index.js')
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest('dist/assets/js'));
 });

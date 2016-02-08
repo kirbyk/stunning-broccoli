@@ -15,23 +15,37 @@ export default class Player extends Sprite {
     this.radius = Constants.playerRadius;
     // this.color = '#000000';
 
-    // deltaTime: 0,
-    // lastTime: Date.now(),
 
     this.upKeyDown = false;
     this.downKeyDown = false;
     this.rightKeyDown = false;
     this.leftKeyDown = false;
+  }
 
-    // this._handleKeydown = this._handleKeydown.bind(this);
-    // this._handleKeyup = this._handleKeyup.bind(this);
-
-    // document.addEventListener('keydown', this._handleKeydown);
-    // document.addEventListener('keyup', this._handleKeyup);
+  draw (ctx) {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+    ctx.fillStyle = '#5AC8FB';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#52EDC7';
+    ctx.stroke();
   }
 
   update (deltaTime) {
-
+    // update moving speed based on current keys
+    if(this.upKeyDown) {
+      this.yDir -= Constants.playerSpeed * deltaTime;
+    }
+    if(this.downKeyDown) {
+      this.yDir += Constants.playerSpeed * deltaTime;
+    }
+    if(this.leftKeyDown) {
+      this.xDir -= Constants.playerSpeed * deltaTime;
+    }
+    if(this.rightKeyDown) {
+      this.xDir += Constants.playerSpeed * deltaTime;
+    }
 
     mapCollisions(deltaTime);
 
@@ -91,139 +105,4 @@ export default class Player extends Sprite {
       this.y = Constants.gameHeight - this.radius;
     }
   }
-
-  componentDidMount() {
-    setInterval(() => {
-      this.setState({
-        ...this.state,
-        deltaTime: (Date.now() - this.state.lastTime) / 1000,
-        yDir: this.state.yDir + (Constants.gravity * this.state.deltaTime)
-      });
-
-      this._setY(this.state.yPos + (this.state.yDir * this.state.deltaTime));
-
-      var playerVector = Constants.playerSpeed * this.state.deltaTime;
-
-      if (this.state.rightKeyDown) {
-        this._setX(this.state.xPos + playerVector);
-      }
-
-      if (this.state.leftKeyDown) {
-        this._setX(this.state.xPos - playerVector);
-      }
-
-      this.setState({
-        lastTime: Date.now()
-      });
-
-      this.forceUpdate();
-    }, Constants.fps);
-  }
-
-  render() {
-    var style = this._getStyle();
-
-    return (
-      <Circle style={style} />
-    );
-  }
-
-  _getStyle() {
-    return {
-      xPos: this.state.xPos,
-      yPos: this.state.yPos,
-      radius: this.state.radius,
-      color: this.state.color
-    };
-  }
-
-  _setX(x) {
-    var safeWidth = Constants.canvasWidth - this.state.radius;
-
-    if (x > safeWidth) {                      // prevent going too right
-      this.setState({
-        ...this.state,
-        xPos: safeWidth
-      });
-    } else if (x < Constants.playerRadius) {  // prevent going too left
-      this.setState({
-        ...this.state,
-        xPos: Constants.playerRadius
-      });
-    } else {
-      this.setState({                         // base case
-        ...this.state,
-        xPos: x
-      });
-    }
-  }
-
-  _setY(y) {
-    var safeHeight = Constants.canvasHeight - this.state.radius;
-
-    if (y > safeHeight) {                     // prevent going too low
-      this.setState({
-        ...this.state,
-        yPos: safeHeight
-      });
-    } else if (y < Constants.playerRadius) {  // prevent going too high
-      this.setState({
-        ...this.state,
-        yPos: Constants.playerRadius
-      });
-    } else {                                  // base case
-      this.setState({
-        ...this.state,
-        yPos: y
-      });
-    }
-  }
-
-  _handleKeydown(e) {
-    var keyCode = e.keyCode;
-    var keyCodes = Constants.keyCodes;
-
-    switch(keyCode) {
-      case keyCodes.up:
-      case keyCodes.space:
-        this.setState({
-          ...this.state,
-          yDir: Constants.playerJump
-        });
-        break;
-      case keyCodes.right:
-        this.setState({
-          ...this.state,
-          rightKeyDown: true
-        });
-        break;
-      case keyCodes.left:
-        this.setState({
-          ...this.state,
-          leftKeyDown: true
-        });
-        break;
-    }
-  }
-
-  _handleKeyup(e) {
-    var keyCode = e.keyCode;
-    var keyCodes = Constants.keyCodes;
-
-    switch(keyCode) {
-      case keyCodes.right:
-        this.setState({
-          ...this.state,
-          rightKeyDown: false
-        });
-        break;
-      case keyCodes.left:
-        this.setState({
-          ...this.state,
-          leftKeyDown: false
-        });
-        break;
-    }
-  }
-
 }
