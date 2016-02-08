@@ -2,13 +2,16 @@ export default {
   canvasWidth: 800,
   canvasHeight: 600,
 
+  gameWidth: 2400,
+  gameHeight: 1000,
+
   playerRadius: 20,
   playerJump: -300,
   playerSpeed: 250,
 
   fps: 1000 / 60, // 60 fp
 
-  gravity: 300,
+  friction: 50,
 
   keyCodes: {
     space: 32,

@@ -1,33 +1,95 @@
+/*
+Broccoli
+
+The Player class - many of these in one online game
+*/
+
 import Constants from '../constants';
-import React from 'react';
-import { Circle } from 'react-canvas';
+import Sprite from './Sprite';
+
+export default class Player extends Sprite {
+
+  constructor(x,y) {
+    super(x,y);
+
+    this.radius = Constants.playerRadius;
+    // this.color = '#000000';
+
+    // deltaTime: 0,
+    // lastTime: Date.now(),
+
+    this.upKeyDown = false;
+    this.downKeyDown = false;
+    this.rightKeyDown = false;
+    this.leftKeyDown = false;
+
+    // this._handleKeydown = this._handleKeydown.bind(this);
+    // this._handleKeyup = this._handleKeyup.bind(this);
+
+    // document.addEventListener('keydown', this._handleKeydown);
+    // document.addEventListener('keyup', this._handleKeyup);
+  }
+
+  update (deltaTime) {
 
 
-export default class Player extends React.Component {
+    mapCollisions(deltaTime);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      xPos: Constants.canvasWidth / 2,
-      yPos: Constants.canvasHeight / 2,
+    applyFriction(deltaTime);
 
-      yDir: 0,
+    // update player position
+    this.y += this.yDir * deltaTime;
+    this.x += this.xDir * deltaTime;
+  }
 
-      radius: Constants.playerRadius,
-      color: '#000000',
+  applyFriction(deltaTime) {
+    // slow the player down gradually
+    if(this.xDir > 0) { // X
+      this.xDir -= friction * deltaTime
+      if(this.xDir < 0) {
+        this.xDir = 0;
+      }
+    }
+    else if(this.xDir < 0) { 
+      this.xDir += friction * deltaTime
+      if(this.xDir > 0) {
+        this.xDir = 0;
+      }
+    }
+    if(this.yDir > 0) { // Y
+      this.yDir -= friction * deltaTime
+      if(this.yDir < 0) {
+        this.yDir = 0;
+      }
+    }
+    else if(this.yDir < 0) { 
+      this.yDir += friction * deltaTime
+      if(this.yDir > 0) {
+        this.yDir = 0;
+      }
+    }
+  }
 
-      deltaTime: 0,
-      lastTime: Date.now(),
+  playerMapCollisions (deltaTime) {
+    // left side map collision
+    if(this.xDir > 0 && this.x + this.radius + this.xDir * deltaTime < 0) {
+      this.x = this.radius;
+      this.xDir = 0;
+    }
+    // right side map collision
+    else if(this.xDir < 0 && this.x + this.radius + this.xDir * deltaTime > Constants.gameWidth) {
+      this.x = Constants.gameWidth - this.radius;
+      this.xDir = 0;
+    }
 
-      rightKeyDown: false,
-      leftKeyDown: false,
-    };
-
-    this._handleKeydown = this._handleKeydown.bind(this);
-    this._handleKeyup = this._handleKeyup.bind(this);
-
-    document.addEventListener('keydown', this._handleKeydown);
-    document.addEventListener('keyup', this._handleKeyup);
+    // top side map collision
+    if(this.yDir < 0 && this.y + this.radius + this.yDir * deltaTime < 0) {
+      this.y = this.radius;
+    }
+    // bottom side map collision
+    else if(this.y + this.radius + this.yDir * deltaTime > Constants.gameHeight) {
+      this.y = Constants.gameHeight - this.radius;
+    }
   }
 
   componentDidMount() {
